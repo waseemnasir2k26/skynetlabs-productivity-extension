@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZENFLOW // NEURAL LABS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       ZENFLOW // NEURAL LABS — Popup Styles v3.0
+       Void Interface | Maximum Flow State
+    ═══════════════════════════════════════════════════════════════ */
+
+    :root {
+      --bg-primary: #050508;
+      --bg-secondary: #0C0C12;
+      --bg-tertiary: #14141F;
+      --bg-card: rgba(12, 12, 18, 0.95);
+      --cyan: #00E5FF;
+      --cyan-dim: rgba(0, 229, 255, 0.15);
+      --cyan-glow: rgba(0, 229, 255, 0.6);
+      --magenta: #E040FB;
+      --magenta-dim: rgba(224, 64, 251, 0.15);
+      --magenta-glow: rgba(224, 64, 251, 0.6);
+      --purple: #7C4DFF;
+      --green: #00E676;
+      --green-glow: rgba(0, 230, 118, 0.5);
+      --red: #FF1744;
+      --yellow: #FFEA00;
+      --orange: #FF6D00;
+      --text-primary: #F0F4FF;
+      --text-secondary: #9CA3AF;
+      --text-muted: #4B5563;
+      --border: rgba(0, 229, 255, 0.12);
+      --border-glow: rgba(0, 229, 255, 0.35);
+      --font-display: 'Outfit', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --font-sans: 'Space Grotesk', sans-serif;
+    }
+
+    /* Light Theme */
+    [data-theme="light"] {
+      --bg-primary: #F5F7FA;
+      --bg-secondary: #FFFFFF;
+      --bg-tertiary: #E8ECF0;
+      --bg-card: rgba(255, 255, 255, 0.95);
+      --cyan: #0077CC;
+      --cyan-dim: rgba(0, 119, 204, 0.1);
+      --cyan-glow: rgba(0, 119, 204, 0.3);
+      --magenta: #9333EA;
+      --magenta-dim: rgba(147, 51, 234, 0.1);
+      --magenta-glow: rgba(147, 51, 234, 0.3);
+      --purple: #7C3AED;
+      --green: #059669;
+      --green-glow: rgba(5, 150, 105, 0.3);
+      --red: #DC2626;
+      --yellow: #D97706;
+      --orange: #EA580C;
+      --text-primary: #1A202C;
+      --text-secondary: #4A5568;
+      --text-muted: #A0AEC0;
+      --border: rgba(0, 119, 204, 0.15);
+      --border-glow: rgba(0, 119, 204, 0.2);
+    }
+
+    [data-theme="light"] body::before {
+      opacity: 0.05;
+    }
+
+    [data-theme="light"] .brand-logo {
+      box-shadow: 0 4px 12px rgba(0, 119, 204, 0.3);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 400px;
+      min-height: 520px;
+      max-height: 620px;
+      font-family: var(--font-mono);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Scanlines overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.15) 2px,
+        rgba(0, 0, 0, 0.15) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    /* Gradient background */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(ellipse at 0% 0%, rgba(0, 243, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 100% 100%, rgba(255, 0, 255, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .popup {
+      padding: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 12px;
+      color: var(--bg-primary);
+      box-shadow: 0 0 20px var(--cyan-glow), 0 0 40px rgba(255, 0, 255, 0.3);
+      animation: logoGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes logoGlow {
+      0% { box-shadow: 0 0 20px var(--cyan-glow), 0 0 40px rgba(255, 0, 255, 0.2); }
+      100% { box-shadow: 0 0 30px var(--magenta-glow), 0 0 50px rgba(0, 243, 255, 0.3); }
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 14px;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 2px;
+      animation: textGlitch 5s infinite;
+    }
+
+    @keyframes textGlitch {
+      0%, 92%, 100% { opacity: 1; transform: translate(0); }
+      93% { opacity: 0.8; transform: translate(-2px, 0); }
+      94% { opacity: 0.8; transform: translate(2px, 0); }
+      95% { opacity: 1; transform: translate(0); }
+    }
+
+    .brand-tagline {
+      font-size: 9px;
+      color: var(--text-muted);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--border);
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .icon-btn:hover {
+      background: var(--cyan-dim);
+      border-color: var(--cyan);
+      color: var(--cyan);
+      box-shadow: 0 0 15px var(--cyan-dim);
+    }
+
+    .icon-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Focus Box */
+    .focus-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .focus-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--cyan));
+      background-size: 200% 100%;
+      animation: gradientFlow 3s linear infinite;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 200% 0%; }
+    }
+
+    .focus-box.active {
+      border-color: var(--magenta);
+      box-shadow: 0 0 30px rgba(255, 0, 255, 0.2), inset 0 0 30px rgba(255, 0, 255, 0.05);
+    }
+
+    .focus-box.active::before {
+      background: linear-gradient(90deg, var(--magenta), var(--purple), var(--magenta));
+      background-size: 200% 100%;
+    }
+
+    .focus-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .focus-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 1px;
+    }
+
+    .focus-label svg {
+      width: 18px;
+      height: 18px;
+      color: var(--cyan);
+      filter: drop-shadow(0 0 5px var(--cyan-glow));
+    }
+
+    .duration-pills {
+      display: flex;
+      gap: 5px;
+    }
+
+    .pill {
+      padding: 5px 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .pill:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .pill.active {
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      border-color: transparent;
+      color: var(--bg-primary);
+      box-shadow: 0 0 15px var(--cyan-dim);
+    }
+
+    .start-btn {
+      width: 100%;
+      padding: 14px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      border: none;
+      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      color: var(--bg-primary);
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s;
+      box-shadow: 0 0 20px var(--cyan-dim);
+      text-transform: uppercase;
+    }
+
+    .start-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px var(--cyan-glow), 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .start-btn:active {
+      transform: translateY(0);
+    }
+
+    .start-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Focus Active State */
+    .focus-active {
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .locked-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(255, 0, 255, 0.1);
+      border: 1px solid rgba(255, 0, 255, 0.4);
+      border-radius: 30px;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--magenta);
+      margin-bottom: 14px;
+      letter-spacing: 2px;
+      animation: lockPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes lockPulse {
+      0%, 100% { box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); }
+      50% { box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
+    }
+
+    .locked-badge svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .timer-display {
+      font-family: var(--font-display);
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: 4px;
+      text-shadow: 0 0 30px var(--cyan-glow);
+    }
+
+    .timer-progress {
+      width: 100%;
+      height: 6px;
+      background: var(--bg-tertiary);
+      border-radius: 3px;
+      margin-top: 14px;
+      overflow: hidden;
+    }
+
+    .timer-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+      border-radius: 3px;
+      transition: width 1s ease;
+      box-shadow: 0 0 10px var(--cyan-glow);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 14px;
+      background: var(--bg-secondary);
+      padding: 5px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .tab.active {
+      background: linear-gradient(135deg, var(--cyan-dim), var(--magenta-dim));
+      color: var(--cyan);
+      box-shadow: 0 0 15px var(--cyan-dim);
+    }
+
+    /* First tab (Missions) special styling */
+    .tab[data-tab="tasks"].active {
+      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      color: white;
+      box-shadow: 0 0 25px var(--cyan-dim), 0 0 35px var(--magenta-dim);
+    }
+
+    .tab:hover:not(.active) {
+      color: var(--text-secondary);
+      background: var(--bg-tertiary);
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Section */
+    .section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20px;
+      right: 20px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      opacity: 0.3;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--cyan);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .section-count {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      padding: 3px 8px;
+      background: var(--bg-tertiary);
+      border-radius: 10px;
+    }
+
+    /* Tasks List */
+    .tasks-list {
+      max-height: 180px;
+      overflow-y: auto;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      background: var(--bg-tertiary);
+      border: 1px solid transparent;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .task-item:hover {
+      background: var(--cyan-dim);
+      border-color: var(--cyan);
+      transform: translateX(3px);
+    }
+
+    .task-item.completed {
+      opacity: 0.5;
+    }
+
+    .task-item.completed:hover {
+      opacity: 0.7;
+    }
+
+    .task-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--cyan);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .task-item:hover .task-checkbox {
+      box-shadow: 0 0 10px var(--cyan-dim);
+    }
+
+    .task-item.completed .task-checkbox {
+      background: var(--green);
+      border-color: var(--green);
+      box-shadow: 0 0 10px var(--green-glow);
+    }
+
+    .task-checkbox svg {
+      width: 12px;
+      height: 12px;
+      stroke: var(--bg-primary);
+      stroke-width: 3;
+      display: none;
+    }
+
+    .task-item.completed .task-checkbox svg {
+      display: block;
+    }
+
+    .task-text {
+      flex: 1;
+      font-size: 12px;
+      color: var(--text-primary);
+    }
+
+    .task-item.completed .task-text {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .task-delete {
+      width: 22px;
+      height: 22px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      border-radius: 5px;
+      transition: all 0.2s;
+    }
+
+    .task-item:hover .task-delete {
+      opacity: 1;
+    }
+
+    .task-delete:hover {
+      background: rgba(255, 51, 102, 0.2);
+      color: var(--red);
+    }
+
+    .task-delete svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* Add Input Row */
+    .add-input-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .add-input {
+      flex: 1;
+      padding: 10px 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      transition: all 0.2s;
+    }
+
+    .add-input:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px var(--cyan-dim);
+    }
+
+    .add-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .add-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      color: var(--bg-primary);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      box-shadow: 0 0 15px var(--cyan-dim);
+    }
+
+    .add-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px var(--cyan-glow);
+    }
+
+    .add-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Notes */
+    .notes-textarea {
+      width: 100%;
+      min-height: 130px;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      resize: vertical;
+      transition: all 0.2s;
+    }
+
+    .notes-textarea:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 0 0 20px var(--cyan-dim);
+    }
+
+    .notes-textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    .notes-status {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .notes-status.saved {
+      color: var(--green);
+    }
+
+    /* Sites List */
+    .sites-list {
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .site-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      background: var(--bg-tertiary);
+      border-radius: 6px;
+      margin-bottom: 5px;
+      font-size: 11px;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .site-item:hover {
+      border-color: var(--red);
+      background: rgba(255, 51, 102, 0.1);
+    }
+
+    .site-item .site-name {
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+    }
+
+    .site-item .remove-btn {
+      width: 20px;
+      height: 20px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      opacity: 0;
+      transition: all 0.2s;
+    }
+
+    .site-item:hover .remove-btn {
+      opacity: 1;
+    }
+
+    .site-item .remove-btn:hover {
+      background: rgba(255, 51, 102, 0.2);
+      color: var(--red);
+    }
+
+    .site-item .remove-btn svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .default-badge {
+      font-size: 9px;
+      color: var(--text-muted);
+      padding: 3px 8px;
+      background: var(--bg-secondary);
+      border-radius: 10px;
+      letter-spacing: 1px;
+    }
+
+    /* Quick Add Tags */
+    .quick-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .quick-tag {
+      padding: 5px 10px;
+      font-size: 10px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quick-tag:hover {
+      border-color: var(--red);
+      color: var(--red);
+      background: rgba(255, 51, 102, 0.1);
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      margin-top: 12px;
+    }
+
+    .footer-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .footer-link:hover {
+      color: var(--cyan);
+    }
+
+    .footer-link svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 9px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+    }
+
+    /* Notification */
+    .notification {
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      padding: 12px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--cyan);
+      border-radius: 10px;
+      font-size: 12px;
+      color: var(--text-primary);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 100;
+      box-shadow: 0 0 20px var(--cyan-dim);
+    }
+
+    .notification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .notification.error {
+      border-color: var(--red);
+      box-shadow: 0 0 20px rgba(255, 51, 102, 0.3);
+    }
+
+    .notification.success {
+      border-color: var(--green);
+      box-shadow: 0 0 20px var(--green-glow);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    /* Time Tracking Analytics */
+    .time-overview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .time-stat {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: var(--bg-tertiary);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .time-stat.productive {
+      border-color: rgba(0, 255, 136, 0.3);
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.05), transparent);
+    }
+
+    .time-stat.waste {
+      border-color: rgba(255, 51, 102, 0.3);
+      background: linear-gradient(135deg, rgba(255, 51, 102, 0.05), transparent);
+    }
+
+    .time-stat-icon {
+      font-size: 20px;
+    }
+
+    .time-stat-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .time-stat-label {
+      font-size: 9px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .time-stat-value {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .time-stat.productive .time-stat-value {
+      color: var(--green);
+    }
+
+    .time-stat.waste .time-stat-value {
+      color: var(--red);
+    }
+
+    .category-breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .category-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .category-label {
+      width: 80px;
+      font-size: 10px;
+      color: var(--text-secondary);
+      text-transform: capitalize;
+    }
+
+    .category-progress {
+      flex: 1;
+      height: 8px;
+      background: var(--bg-tertiary);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .category-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .category-fill.social { background: linear-gradient(90deg, #FF6B6B, #FF00FF); }
+    .category-fill.entertainment { background: linear-gradient(90deg, #FFE66D, #FF6B00); }
+    .category-fill.productive { background: linear-gradient(90deg, #00F3FF, #00FF88); }
+    .category-fill.gaming { background: linear-gradient(90deg, #BF00FF, #FF00FF); }
+    .category-fill.news { background: linear-gradient(90deg, #4ECDC4, #00F3FF); }
+    .category-fill.shopping { background: linear-gradient(90deg, #FF9F43, #FFE600); }
+    .category-fill.other { background: linear-gradient(90deg, #6B7280, #8892A0); }
+
+    .category-time {
+      width: 40px;
+      font-size: 10px;
+      color: var(--text-muted);
+      text-align: right;
+      font-family: var(--font-mono);
+    }
+
+    .top-sites-header {
+      margin-bottom: 8px;
+    }
+
+    .top-sites {
+      max-height: 100px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+    }
+
+    .top-site-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      background: var(--bg-tertiary);
+      border-radius: 6px;
+      margin-bottom: 4px;
+      font-size: 11px;
+    }
+
+    .top-site-domain {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-primary);
+    }
+
+    .top-site-category {
+      font-size: 12px;
+    }
+
+    .top-site-time {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--cyan);
+      font-weight: 600;
+    }
+
+    .insights {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .insight-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+    }
+
+    .insight-card.warning {
+      border-color: rgba(255, 107, 0, 0.4);
+      background: linear-gradient(135deg, rgba(255, 107, 0, 0.08), transparent);
+    }
+
+    .insight-card.success {
+      border-color: rgba(0, 255, 136, 0.4);
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.08), transparent);
+    }
+
+    .insight-card.alert {
+      border-color: rgba(255, 51, 102, 0.4);
+      background: linear-gradient(135deg, rgba(255, 51, 102, 0.08), transparent);
+    }
+
+    .insight-icon {
+      font-size: 16px;
+    }
+
+    .insight-content {
+      flex: 1;
+    }
+
+    .insight-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .insight-message {
+      font-size: 10px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    /* Vibe Mode Selector */
+    .vibe-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .vibe-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 8px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .vibe-btn:hover {
+      border-color: var(--cyan);
+      background: var(--cyan-dim);
+    }
+
+    .vibe-btn.active {
+      border-color: var(--cyan);
+      background: linear-gradient(135deg, var(--cyan-dim), var(--magenta-dim));
+      box-shadow: 0 0 15px var(--cyan-dim);
+    }
+
+    .vibe-icon {
+      font-size: 18px;
+    }
+
+    .vibe-name {
+      font-size: 9px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .vibe-btn.active .vibe-name {
+      color: var(--cyan);
+    }
+
+    /* Ambient Control */
+    .ambient-control {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+    }
+
+    .ambient-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .ambient-select {
+      padding: 6px 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    .ambient-select:focus {
+      outline: none;
+      border-color: var(--cyan);
+    }
+
+    /* Wellness Toggles */
+    .wellness-toggles {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toggle-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .toggle-item:hover {
+      background: var(--cyan-dim);
+    }
+
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-primary);
+    }
+
+    .toggle-icon {
+      font-size: 14px;
+    }
+
+    .toggle-item input[type="checkbox"] {
+      display: none;
+    }
+
+    .toggle-slider {
+      position: relative;
+      width: 36px;
+      height: 20px;
+      background: var(--bg-secondary);
+      border-radius: 10px;
+      transition: all 0.2s;
+    }
+
+    .toggle-slider::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      background: var(--text-muted);
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+
+    .toggle-item input:checked + .toggle-slider {
+      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+    }
+
+    .toggle-item input:checked + .toggle-slider::after {
+      left: 18px;
+      background: var(--text-primary);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-tertiary);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(var(--cyan), var(--magenta));
+      border-radius: 3px;
+    }
+
+    /* Loading Overlay */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      gap: 12px;
+    }
+
+    .loading-spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--cyan);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .loading-text {
+      color: var(--text-secondary);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .popup-container {
+      transition: opacity 0.2s ease;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loading-spinner"></div>
+    <span class="loading-text">Loading...</span>
+  </div>
+
+  <div class="popup popup-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="brand-logo">HF</div>
+        <div class="brand-text">
+          <span class="brand-name">ZENFLOW</span>
+          <span class="brand-tagline">// NEURAL LABS</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="themeToggleBtn" title="Toggle Dark/Light Theme">
+          <svg id="themeIconDark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg id="themeIconLight" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <a href="newtab.html" target="_blank" class="icon-btn" title="Open Neural Dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+            <line x1="3" y1="9" x2="21" y2="9"></line>
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <!-- Focus Box -->
+    <div class="focus-box" id="focusBox">
+      <!-- Inactive State -->
+      <div id="focusInactive">
+        <div class="focus-row">
+          <div class="focus-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>FOCUS MODE</span>
+          </div>
+          <div class="duration-pills">
+            <button class="pill" data-duration="15">15m</button>
+            <button class="pill active" data-duration="25">25m</button>
+            <button class="pill" data-duration="45">45m</button>
+            <button class="pill" data-duration="60">1h</button>
+          </div>
+        </div>
+        <button class="start-btn" id="startFocusBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+            <path d="M7 11V7a5 5 0 0110 0v4"></path>
+          </svg>
+          INITIATE LOCK
+        </button>
+      </div>
+
+      <!-- Active State -->
+      <div id="focusActive" style="display: none;">
+        <div class="focus-active">
+          <div class="locked-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+              <path d="M7 11V7a5 5 0 0110 0v4"></path>
+            </svg>
+            NEURAL LOCK ENGAGED
+          </div>
+          <div class="timer-display" id="timerDisplay">25:00</div>
+          <div class="timer-progress">
+            <div class="timer-progress-fill" id="timerProgressFill" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="tasks">⚡ MISSIONS</button>
+      <button class="tab" data-tab="refresh">🔄 Auto</button>
+      <button class="tab" data-tab="blocked">🚫 Sites</button>
+      <button class="tab" data-tab="settings">⚙️</button>
+    </div>
+
+    <!-- Tasks Tab - PROMINENT -->
+    <div class="tab-content active" id="tab-tasks">
+      <!-- Quick Add Task - TOP PRIORITY -->
+      <div class="section" style="background: linear-gradient(135deg, rgba(0, 243, 255, 0.08), rgba(255, 0, 255, 0.05)); border-color: var(--cyan);">
+        <div class="section-header">
+          <span class="section-title" style="font-size: 12px; color: var(--cyan);">⚡ QUICK ADD MISSION</span>
+        </div>
+        <div class="add-input-row">
+          <input type="text" class="add-input" id="newTaskInput" placeholder="What needs to be done? Press Enter..." style="font-size: 14px; padding: 14px;">
+          <button class="add-btn" id="addTaskBtn" style="width: 44px; height: 44px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Missions List -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">// Active Missions</span>
+          <span class="section-count" id="taskCount">0 active</span>
+        </div>
+        <div class="tasks-list" id="tasksList" style="max-height: 220px;">
+          <div class="empty-state" id="tasksEmpty">No missions queued. Add one above!</div>
+        </div>
+      </div>
+
+      <!-- Floating Notes Quick Access -->
+      <div class="section" id="floatingNotesQuickAccess">
+        <div class="section-header">
+          <span class="section-title">📝 Floating Notes</span>
+          <button class="icon-btn" id="openFloatingNoteBtn" title="Open Note on Current Page">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+              <polyline points="14,2 14,8 20,8"/>
+              <line x1="12" y1="11" x2="12" y2="17"/>
+              <line x1="9" y1="14" x2="15" y2="14"/>
+            </svg>
+          </button>
+        </div>
+        <p style="font-size: 11px; color: var(--text-muted); margin: 0;">Click the floating 📝 button on any page to add a note. Notes persist across sessions.</p>
+      </div>
+    </div>
+
+    <!-- Auto-Refresh Tab (Page Monitor) -->
+    <div class="tab-content" id="tab-refresh">
+      <!-- Active Timer Display - Shows when refreshing -->
+      <div class="section" id="activeTimerSection" style="display: none; background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(224, 64, 251, 0.05)); border: 1px solid var(--cyan);">
+        <div style="text-align: center; padding: 8px 0;">
+          <div style="font-family: var(--font-mono); font-size: 10px; color: var(--cyan); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">⚡ AUTO-REFRESH ACTIVE</div>
+          <div style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
+            <svg width="100" height="100" style="transform: rotate(-90deg);">
+              <circle cx="50" cy="50" r="45" fill="none" stroke="var(--bg-tertiary)" stroke-width="6"/>
+              <circle id="refreshProgressRing" cx="50" cy="50" r="45" fill="none" stroke="url(#refreshGradient)" stroke-width="6" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="0" style="transition: stroke-dashoffset 1s linear;"/>
+              <defs>
+                <linearGradient id="refreshGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="var(--cyan)"/>
+                  <stop offset="100%" stop-color="var(--magenta)"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+              <div id="refreshCountdown" style="font-family: var(--font-display); font-size: 28px; font-weight: 800; color: var(--text-primary);">30</div>
+              <div style="font-size: 9px; color: var(--text-muted); text-transform: uppercase;">sec</div>
+            </div>
+          </div>
+          <div style="margin-top: 10px;">
+            <div id="refreshTabTitle" style="font-size: 11px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 280px; margin: 0 auto;">Current Tab</div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--green); margin-top: 4px;">Refreshes: <span id="refreshTotalCount">0</span></div>
+          </div>
+          <button class="stop-btn" id="stopActiveRefreshBtn" style="margin-top: 12px; padding: 8px 20px; font-size: 11px; background: rgba(255, 23, 68, 0.1); border: 1px solid var(--red); color: var(--red); border-radius: 8px; cursor: pointer; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 1px;">
+            ⏹ Stop Refresh
+          </button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">🔄 Auto-Refresh / Page Monitor</span>
+        </div>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 14px;">Automatically refresh pages at set intervals. Great for monitoring dashboards, auctions, stock prices.</p>
+
+        <!-- Current Tab Controls -->
+        <div class="refresh-current-tab" id="refreshStartControls" style="padding: 14px; background: var(--bg-tertiary); border-radius: 10px; margin-bottom: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <span class="toggle-icon">🌐</span>
+            <span style="font-size: 12px; color: var(--text-primary); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" id="currentTabUrl">Current Tab</span>
+          </div>
+
+          <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px;">
+            <label style="font-size: 11px; color: var(--text-secondary);">Refresh every:</label>
+            <select class="ambient-select" id="refreshInterval" style="flex: 1;">
+              <option value="5">5 seconds</option>
+              <option value="10">10 seconds</option>
+              <option value="15">15 seconds</option>
+              <option value="30" selected>30 seconds</option>
+              <option value="60">1 minute</option>
+              <option value="120">2 minutes</option>
+              <option value="300">5 minutes</option>
+              <option value="600">10 minutes</option>
+              <option value="1800">30 minutes</option>
+              <option value="3600">1 hour</option>
+            </select>
+          </div>
+
+          <button class="start-btn" id="startAutoRefreshBtn" style="width: 100%; padding: 12px; font-size: 12px; font-weight: 600;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            START AUTO-REFRESH
+          </button>
+        </div>
+
+        <!-- Active Refresh Sessions -->
+        <div class="section-header" style="margin-top: 8px;">
+          <span class="section-title" style="font-size: 10px;">// Active Monitors</span>
+          <span class="section-count" id="refreshCount">0 active</span>
+        </div>
+        <div class="sites-list" id="activeRefreshList" style="max-height: 120px;">
+          <div class="empty-state">No active auto-refresh monitors</div>
+        </div>
+      </div>
+
+      <!-- Page Change Detection -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">👁️ Change Detection</span>
+        </div>
+        <div class="wellness-toggles">
+          <label class="toggle-item">
+            <span class="toggle-label">
+              <span class="toggle-icon">🔔</span>
+              Notify on page change
+            </span>
+            <input type="checkbox" id="notifyOnChange" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <label class="toggle-item">
+            <span class="toggle-label">
+              <span class="toggle-icon">🔊</span>
+              Play sound on change
+            </span>
+            <input type="checkbox" id="soundOnChange">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blocked Sites Tab -->
+    <div class="tab-content" id="tab-blocked">
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">🚫 Blocked During Focus</span>
+          <span class="section-count" id="siteCount">0 sites</span>
+        </div>
+        <div class="sites-list" id="sitesList" style="max-height: 180px;">
+          <div class="empty-state" id="sitesEmpty">No sites blocked</div>
+        </div>
+        <div class="add-input-row" style="margin-top: 10px;">
+          <input type="text" class="add-input" id="newSiteInput" placeholder="Add site to block (e.g. twitter.com)">
+          <button class="add-btn" id="addSiteBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Block Tags -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">// Quick Block</span>
+        </div>
+        <div class="quick-tags">
+          <button class="quick-tag" data-sites="facebook.com,instagram.com,twitter.com,x.com,tiktok.com">Social Media</button>
+          <button class="quick-tag" data-sites="youtube.com,netflix.com,twitch.tv,hulu.com">Streaming</button>
+          <button class="quick-tag" data-sites="reddit.com,news.ycombinator.com,buzzfeed.com">News/Forums</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics Tab -->
+    <div class="tab-content" id="tab-analytics">
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">// Today's Usage</span>
+          <span class="section-count" id="totalTimeToday">0m</span>
+        </div>
+
+        <!-- Time Overview -->
+        <div class="time-overview">
+          <div class="time-stat productive">
+            <div class="time-stat-icon">🚀</div>
+            <div class="time-stat-info">
+              <span class="time-stat-label">Productive</span>
+              <span class="time-stat-value" id="productiveTime">0m</span>
+            </div>
+          </div>
+          <div class="time-stat waste">
+            <div class="time-stat-icon">📱</div>
+            <div class="time-stat-info">
+              <span class="time-stat-label">Distraction</span>
+              <span class="time-stat-value" id="wasteTime">0m</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Breakdown -->
+        <div class="category-breakdown" id="categoryBreakdown">
+          <!-- Filled by JS -->
+        </div>
+
+        <!-- Top Sites -->
+        <div class="top-sites-header">
+          <span class="section-title" style="font-size: 9px;">// Top Sites</span>
+        </div>
+        <div class="top-sites" id="topSitesList">
+          <div class="empty-state">No data yet. Keep browsing!</div>
+        </div>
+
+        <!-- Insights -->
+        <div class="insights" id="insightsList">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div class="tab-content" id="tab-settings">
+      <!-- Vibe Mode Section -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">// Vibe Mode</span>
+        </div>
+        <div class="vibe-selector">
+          <button class="vibe-btn active" data-vibe="cyberpunk" title="Cyberpunk">
+            <span class="vibe-icon">🌃</span>
+            <span class="vibe-name">Cyberpunk</span>
+          </button>
+          <button class="vibe-btn" data-vibe="lofi" title="Lo-Fi">
+            <span class="vibe-icon">🎵</span>
+            <span class="vibe-name">Lo-Fi</span>
+          </button>
+          <button class="vibe-btn" data-vibe="minimal-dark" title="Minimal">
+            <span class="vibe-icon">🌑</span>
+            <span class="vibe-name">Minimal</span>
+          </button>
+          <button class="vibe-btn" data-vibe="synthwave" title="Synthwave">
+            <span class="vibe-icon">🌅</span>
+            <span class="vibe-name">Synthwave</span>
+          </button>
+          <button class="vibe-btn" data-vibe="forest" title="Forest">
+            <span class="vibe-icon">🌲</span>
+            <span class="vibe-name">Forest</span>
+          </button>
+          <button class="vibe-btn" data-vibe="ocean" title="Ocean">
+            <span class="vibe-icon">🌊</span>
+            <span class="vibe-name">Ocean</span>
+          </button>
+        </div>
+
+        <!-- Ambient Sound -->
+        <div class="ambient-control">
+          <span class="ambient-label">Ambient Sound</span>
+          <select class="ambient-select" id="ambientSelect">
+            <option value="none">None</option>
+            <option value="rain" selected>Rain</option>
+            <option value="cafe">Cafe</option>
+            <option value="whitenoise">White Noise</option>
+            <option value="fire">Fireplace</option>
+            <option value="forest">Forest</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Wellness Section -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">// Wellness</span>
+        </div>
+        <div class="wellness-toggles">
+          <label class="toggle-item">
+            <span class="toggle-label">
+              <span class="toggle-icon">☕</span>
+              Break Reminders
+            </span>
+            <input type="checkbox" id="breakReminders" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <label class="toggle-item">
+            <span class="toggle-label">
+              <span class="toggle-icon">💧</span>
+              Hydration Reminders
+            </span>
+            <input type="checkbox" id="hydrationReminders" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <label class="toggle-item">
+            <span class="toggle-label">
+              <span class="toggle-icon">👁️</span>
+              Eye Strain Alerts (20/20/20)
+            </span>
+            <input type="checkbox" id="eyeStrainReminders" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Features Section -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">// Features</span>
+        </div>
+        <div class="wellness-toggles">
+          <label class="toggle-item">
+            <span class="toggle-label">
+              <span class="toggle-icon">📝</span>
+              Floating Notes
+            </span>
+            <input type="checkbox" id="floatingNotesEnabled" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <label class="toggle-item">
+            <span class="toggle-label">
+              <span class="toggle-icon">🔘</span>
+              Show Notes FAB Button
+            </span>
+            <input type="checkbox" id="floatingNotesFAB" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <label class="toggle-item">
+            <span class="toggle-label">
+              <span class="toggle-icon">✂️</span>
+              Quick Capture (Select Text)
+            </span>
+            <input type="checkbox" id="quickCaptureEnabled" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <button id="resetFloatingNotesBtn" class="compact-btn" style="margin-top: 8px; font-size: 10px; padding: 6px 12px; opacity: 0.7;">
+          🔄 Reset Notes Settings
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <a href="https://www.skynetjoe.com" target="_blank" class="footer-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        skynetjoe.com
+      </a>
+      <span class="footer-brand">v3.0.0</span>
+    </footer>
+  </div>
+
+  <script src="js/popup.js"></script>
+</body>
+</html>

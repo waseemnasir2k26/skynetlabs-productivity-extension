@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HYPERFOCUS // Quick Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0A0A0F;
+      --bg-secondary: #12121A;
+      --bg-tertiary: #1A1A25;
+      --cyan: #00F3FF;
+      --cyan-dim: rgba(0, 243, 255, 0.15);
+      --magenta: #FF00FF;
+      --magenta-dim: rgba(255, 0, 255, 0.15);
+      --green: #00FF88;
+      --green-glow: rgba(0, 255, 136, 0.5);
+      --red: #FF3366;
+      --text-primary: #F0F6FF;
+      --text-secondary: #8892A0;
+      --text-muted: #4A5568;
+      --border: rgba(0, 243, 255, 0.1);
+      --font-display: 'Orbitron', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-mono);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse at 0% 0%, rgba(0, 243, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 100% 100%, rgba(255, 0, 255, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .panel {
+      padding: 16px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .logo {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 10px;
+      color: var(--bg-primary);
+    }
+
+    .title {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+    }
+
+    /* Live Earnings Hero */
+    .earnings-hero {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 243, 255, 0.05));
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .earnings-label {
+      font-size: 9px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+
+    .earnings-amount {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--green);
+      text-shadow: 0 0 20px var(--green-glow);
+    }
+
+    .earnings-currency {
+      font-size: 16px;
+      margin-right: 2px;
+    }
+
+    /* Quick Actions */
+    .section-title {
+      font-size: 9px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .quick-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .action-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-btn:hover {
+      background: var(--cyan-dim);
+      border-color: var(--cyan);
+      transform: translateX(3px);
+    }
+
+    .action-btn.focus {
+      background: linear-gradient(135deg, var(--cyan-dim), var(--magenta-dim));
+      border-color: var(--cyan);
+    }
+
+    .action-btn.focus:hover {
+      box-shadow: 0 0 20px var(--cyan-dim);
+    }
+
+    .action-btn.billing {
+      border-color: rgba(0, 255, 136, 0.3);
+    }
+
+    .action-btn.billing:hover {
+      background: rgba(0, 255, 136, 0.1);
+      border-color: var(--green);
+    }
+
+    .action-btn svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .action-btn.focus svg {
+      color: var(--cyan);
+    }
+
+    .action-btn.billing svg {
+      color: var(--green);
+    }
+
+    /* Focus Status */
+    .focus-status {
+      background: var(--bg-secondary);
+      border: 1px solid var(--magenta);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 16px;
+      text-align: center;
+      animation: focusPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes focusPulse {
+      0%, 100% { box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); }
+      50% { box-shadow: 0 0 20px rgba(255, 0, 255, 0.4); }
+    }
+
+    .focus-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-display);
+      font-size: 10px;
+      color: var(--magenta);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .focus-badge svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .focus-timer {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text-primary);
+      text-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+    }
+
+    /* Billing Status */
+    .billing-status {
+      background: rgba(0, 255, 136, 0.05);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .billing-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .billing-project {
+      font-size: 11px;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .billing-timer {
+      font-family: var(--font-display);
+      font-size: 12px;
+      color: var(--cyan);
+    }
+
+    .billing-earning {
+      font-size: 10px;
+      color: var(--text-secondary);
+    }
+
+    .billing-earning span {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .stop-btn {
+      width: 100%;
+      padding: 8px;
+      margin-top: 8px;
+      background: rgba(255, 51, 102, 0.1);
+      border: 1px solid var(--red);
+      border-radius: 6px;
+      color: var(--red);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .stop-btn:hover {
+      background: rgba(255, 51, 102, 0.2);
+    }
+
+    /* Today's Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+
+    .stat-label {
+      font-size: 9px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    /* AI Insight */
+    .ai-insight {
+      background: linear-gradient(135deg, rgba(191, 0, 255, 0.1), rgba(0, 243, 255, 0.05));
+      border: 1px solid rgba(191, 0, 255, 0.3);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .ai-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 9px;
+      color: rgba(191, 0, 255, 0.8);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .ai-header svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .ai-message {
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Wellness */
+    .wellness-reminder {
+      background: rgba(255, 230, 0, 0.1);
+      border: 1px solid rgba(255, 230, 0, 0.3);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .wellness-icon {
+      font-size: 20px;
+    }
+
+    .wellness-text {
+      flex: 1;
+    }
+
+    .wellness-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #FFE600;
+    }
+
+    .wellness-subtitle {
+      font-size: 9px;
+      color: var(--text-muted);
+    }
+
+    .wellness-dismiss {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .wellness-dismiss:hover {
+      color: var(--text-secondary);
+    }
+
+    /* Mission List */
+    .missions-list {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .mission-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mission-item:hover {
+      background: var(--cyan-dim);
+      transform: translateX(2px);
+    }
+
+    .mission-checkbox {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--cyan);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .mission-checkbox svg {
+      display: none;
+      width: 12px;
+      height: 12px;
+      color: var(--bg-primary);
+    }
+
+    .mission-item.completed .mission-checkbox {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .mission-item.completed .mission-checkbox svg {
+      display: block;
+    }
+
+    .mission-text {
+      flex: 1;
+      font-size: 12px;
+      color: var(--text-primary);
+    }
+
+    .mission-item.completed .mission-text {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 20px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .footer-link {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .footer-link:hover {
+      color: var(--cyan);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg-tertiary); }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(var(--cyan), var(--magenta)); border-radius: 2px; }
+
+    /* Hidden */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">HF</div>
+      <span class="title">QUICK PANEL</span>
+    </div>
+
+    <!-- Live Earnings -->
+    <div class="earnings-hero">
+      <div class="earnings-label">Today's Earnings</div>
+      <div class="earnings-amount">
+        <span class="earnings-currency">$</span><span id="todayEarnings">0.00</span>
+      </div>
+    </div>
+
+    <!-- Focus Status (shown when active) -->
+    <div class="focus-status hidden" id="focusStatus">
+      <div class="focus-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+          <path d="M7 11V7a5 5 0 0110 0v4"></path>
+        </svg>
+        NEURAL LOCK ACTIVE
+      </div>
+      <div class="focus-timer" id="focusTimer">25:00</div>
+    </div>
+
+    <!-- Billing Status (shown when active) -->
+    <div class="billing-status hidden" id="billingStatus">
+      <div class="billing-header">
+        <span class="billing-project" id="billingProject">Project Name</span>
+        <span class="billing-timer" id="billingTimer">00:00:00</span>
+      </div>
+      <div class="billing-earning">
+        Earning: <span id="billingEarning">$0.00</span>
+      </div>
+      <button class="stop-btn" id="stopBillingBtn">STOP BILLING</button>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="section-title">// Quick Actions</div>
+    <div class="quick-actions">
+      <button class="action-btn focus" id="toggleFocusBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span id="focusBtnText">Start Focus (25m)</span>
+      </button>
+      <button class="action-btn billing" id="toggleBillingBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="1" x2="12" y2="23"></line>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+        <span id="billingBtnText">Start Billing</span>
+      </button>
+      <button class="action-btn" id="addMissionBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Add Mission
+      </button>
+    </div>
+
+    <!-- AI Insight -->
+    <div class="ai-insight" id="aiInsight">
+      <div class="ai-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/>
+          <circle cx="7.5" cy="14.5" r="1.5"/>
+          <circle cx="16.5" cy="14.5" r="1.5"/>
+        </svg>
+        SKYNET Analysis
+      </div>
+      <div class="ai-message" id="aiMessage">
+        Analyzing your productivity patterns...
+      </div>
+    </div>
+
+    <!-- Wellness Reminder (shown when needed) -->
+    <div class="wellness-reminder hidden" id="wellnessReminder">
+      <span class="wellness-icon" id="wellnessIcon">💧</span>
+      <div class="wellness-text">
+        <div class="wellness-title" id="wellnessTitle">Hydration Check</div>
+        <div class="wellness-subtitle" id="wellnessSubtitle">Time to drink some water!</div>
+      </div>
+      <button class="wellness-dismiss" id="dismissWellness">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Today's Stats -->
+    <div class="section-title">// Today</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="focusMinutes">0</div>
+        <div class="stat-label">Focus Min</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="tasksCompleted">0</div>
+        <div class="stat-label">Missions</div>
+      </div>
+    </div>
+
+    <!-- Active Missions -->
+    <div class="section-title">// Active Missions</div>
+    <div class="missions-list" id="missionsList">
+      <div class="mission-item" style="justify-content: center; color: var(--text-muted);">
+        No active missions
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <a href="https://www.skynetjoe.com" target="_blank" class="footer-link">SKYNETLABS v3.0.0</a>
+    </div>
+  </div>
+
+  <script src="js/sidepanel.js"></script>
+</body>
+</html>
