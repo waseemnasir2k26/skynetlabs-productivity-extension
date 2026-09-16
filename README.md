@@ -9,6 +9,10 @@ A premium Chrome extension serving as a private command center for elite operato
 ![Version](https://img.shields.io/badge/Version-3.0.0-000000?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 
+## Status
+
+Last reviewed: September 2026 · release v2026.09
+
 ---
 
 ## Features
